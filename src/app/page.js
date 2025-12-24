@@ -868,112 +868,123 @@ export default function NovaLuxSeatPage() {
         
         {/* Product Showcase */}
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 mb-16 md:mb-20">
-          {/* Image Gallery */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={slideIn}
-            className="space-y-6"
-          >
-            {/* Main Image */}
-            <motion.div 
-              variants={floatAnimation}
-              className="relative aspect-[4/3] bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl overflow-hidden border border-white/10 shadow-lg group"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-            >
-              <motion.img 
-                key={currentImageIndex}
-                src={seatImages[currentImageIndex]}
-                alt={`NovaLux Seat ${currentImageIndex + 1}`}
-                className="w-full h-full object-cover"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: isHovering ? 1.02 : 1 }}
-                transition={{ duration: 0.4 }}
-                loading="lazy"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              
-              {/* Navigation Buttons */}
-              {totalImages > 1 && (
-                <>
-                  <motion.button 
-                    onClick={prevImage}
-                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(147, 51, 234, 0.3)' }}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-lg"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-purple-300" />
-                  </motion.button>
-                  
-                  <motion.button 
-                    onClick={nextImage}
-                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-blue-500/50 transition-all shadow-lg"
-                  >
-                    <ChevronRight className="w-4 h-4 text-blue-300" />
-                  </motion.button>
-                  
-                  {/* Auto-play Toggle */}
-                  <motion.button 
-                    onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-md"
-                    title={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
-                  >
-                    {isAutoPlaying ? (
-                      <Pause className="w-3 h-3 text-purple-300" />
-                    ) : (
-                      <Play className="w-3 h-3 text-purple-300" />
-                    )}
-                  </motion.button>
-                  
-                  {/* Image Counter */}
-                  <motion.div 
-                    className="absolute top-3 left-3 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg px-2.5 py-1 rounded-lg border border-white/20 shadow-md"
-                  >
-                    <p className="text-xs font-medium text-purple-300">
-                      {currentImageIndex + 1} / {totalImages}
-                    </p>
-                  </motion.div>
-                </>
-              )}
-            </motion.div>
-
-            {/* Thumbnail Strip */}
-            {totalImages > 1 && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
-              >
-                {seatImages.map((img, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden border transition-all relative ${
-                      index === currentImageIndex 
-                        ? 'border-purple-500 scale-105 shadow-md shadow-purple-500/20' 
-                        : 'border-white/10 hover:border-purple-400/40'
-                    }`}
-                  >
-                    <img 
-                      src={img} 
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </motion.button>
-                ))}
-              </motion.div>
-            )}
+          {/* Image Gallery - FIXED FOR MOBILE */}
+<motion.div 
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  variants={slideIn}
+  className="space-y-6 w-full overflow-hidden"
+>
+  {/* Main Image Container - FIXED */}
+  <motion.div 
+    variants={floatAnimation}
+    className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl overflow-hidden border border-white/10 shadow-lg group w-full"
+    onMouseEnter={() => setIsHovering(true)}
+    onMouseLeave={() => setIsHovering(false)}
+    style={{
+      aspectRatio: '4/3',
+      maxWidth: '100%',
+      minHeight: '300px'
+    }}
+  >
+    <motion.img 
+      key={currentImageIndex}
+      src={seatImages[currentImageIndex]}
+      alt={`NovaLux Seat ${currentImageIndex + 1}`}
+      className="w-full h-full object-cover"
+      initial={{ opacity: 0, scale: 1.1 }}
+      animate={{ opacity: 1, scale: isHovering ? 1.02 : 1 }}
+      transition={{ duration: 0.4 }}
+      loading="lazy"
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+        display: 'block'
+      }}
+    />
+    
+    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+    
+    {/* Navigation Buttons - FIXED POSITIONING */}
+    {totalImages > 1 && (
+      <>
+        <motion.button 
+          onClick={prevImage}
+          whileHover={{ scale: 1.05, backgroundColor: 'rgba(147, 51, 234, 0.3)' }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-lg z-10"
+        >
+          <ChevronLeft className="w-3 h-3 md:w-4 md:h-4 text-purple-300" />
+        </motion.button>
+        
+        <motion.button 
+          onClick={nextImage}
+          whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-blue-500/50 transition-all shadow-lg z-10"
+        >
+          <ChevronRight className="w-3 h-3 md:w-4 md:h-4 text-blue-300" />
+        </motion.button>
+        
+        {/* Auto-play Toggle */}
+        <motion.button 
+          onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute bottom-2 md:bottom-3 right-2 md:right-3 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-md z-10"
+          title={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
+        >
+          {isAutoPlaying ? (
+            <Pause className="w-2.5 h-2.5 md:w-3 md:h-3 text-purple-300" />
+          ) : (
+            <Play className="w-2.5 h-2.5 md:w-3 md:h-3 text-purple-300" />
+          )}
+        </motion.button>
+        
+        {/* Image Counter */}
+        <motion.div 
+          className="absolute top-2 md:top-3 left-2 md:left-3 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg px-2 py-1 rounded-lg border border-white/20 shadow-md z-10"
+        >
+          <p className="text-xs font-medium text-purple-300">
+            {currentImageIndex + 1} / {totalImages}
+          </p>
+        </motion.div>
+      </>
+    )}
+  </motion.div>
+            {/* Thumbnail Strip - FIXED FOR MOBILE */}
+{totalImages > 1 && (
+  <motion.div 
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide w-full px-1"
+    style={{ WebkitOverflowScrolling: 'touch' }}
+  >
+    {seatImages.map((img, index) => (
+      <motion.button
+        key={index}
+        onClick={() => setCurrentImageIndex(index)}
+        whileHover={{ scale: 1.05, y: -2 }}
+        whileTap={{ scale: 0.9 }}
+        className={`flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border transition-all relative min-w-[56px] md:min-w-[64px] ${
+          index === currentImageIndex 
+            ? 'border-purple-500 scale-105 shadow-md shadow-purple-500/20' 
+            : 'border-white/10 hover:border-purple-400/40'
+        }`}
+      >
+        <img 
+          src={img} 
+          alt={`Thumbnail ${index + 1}`}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </motion.button>
+    ))}
+  </motion.div>
+)}
+          
           </motion.div>
           
           {/* Product Details */}
