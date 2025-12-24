@@ -467,27 +467,22 @@ export default function NovaLuxSeatPage() {
     setVideoError(true);
   };
 
-  // Optimized video loading - only load when in viewport
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && videoRef.current) {
-          videoRef.current.load();
-        }
-      },
-      { threshold: 0.1 }
-    );
+  // Remove the entire useEffect that has IntersectionObserver
+// Replace it with this simpler one:
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
+// Load video immediately when component mounts
+useEffect(() => {
+  if (videoRef.current) {
+    // Set video to load immediately
+    videoRef.current.load();
+    
+    // Preload video for better performance
+    videoRef.current.preload = 'auto';
+    
+    // Cache the video
+    videoRef.current.setAttribute('crossorigin', 'anonymous');
+  }
+}, []);
 
   const totalPrice = {
     'seat-only': 3550,
@@ -1254,307 +1249,322 @@ export default function NovaLuxSeatPage() {
         </div>
         
         {/* Video Showcase Section - Optimized */}
-        <section id="video" className="mb-16 md:mb-20">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-8 md:mb-12"
+<section id="video" className="mb-16 md:mb-20">
+  <motion.div 
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    variants={fadeInUp}
+    className="text-center mb-8 md:mb-12"
+  >
+    <div className="inline-flex items-center gap-3 mb-4">
+      <div className="w-12 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+      <motion.div
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="p-2 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-white/20"
+      >
+        <Play className="w-5 h-5 text-white" />
+      </motion.div>
+      <div className="w-12 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+    </div>
+    <h2 className="text-2xl md:text-3xl font-bold mb-4">
+      <span className="bg-gradient-to-r from-white via-purple-100 to-blue-100 bg-clip-text text-transparent drop-shadow-lg">
+        Experience The Transformation
+      </span>
+    </h2>
+    <p className="text-gray-300 text-sm max-w-xl mx-auto px-2">
+      Watch our 8-second showcase of the NovaLux Triple Seat in action
+    </p>
+  </motion.div>
+  
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl group max-w-3xl mx-auto"
+  >
+    {/* Premium Video Container */}
+    <div className="relative aspect-[16/9] bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      {/* Loading State with Skeleton */}
+      {!isVideoLoaded && !videoError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-purple-900/10 to-blue-900/10">
+          <motion.div
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-full flex flex-col items-center justify-center"
           >
-            <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="p-2 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-white/20"
-              >
-                <Play className="w-5 h-5 text-white" />
-              </motion.div>
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-white via-purple-100 to-blue-100 bg-clip-text text-transparent drop-shadow-lg">
-                Experience The Transformation
-              </span>
-            </h2>
-            <p className="text-gray-300 text-sm max-w-xl mx-auto px-2">
-              Watch our 8-second showcase of the NovaLux Triple Seat in action
-            </p>
+            {/* Skeleton loading animation */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="w-16 h-16 border-3 border-white/20 border-t-white rounded-full mb-4"
+            />
+            <p className="text-white/70 text-sm mb-1">Loading video...</p>
+            <p className="text-white/50 text-xs">8-second demo</p>
           </motion.div>
+        </div>
+      )}
+      
+      {/* Video Element - Optimized for immediate loading */}
+      <video
+        ref={videoRef}
+        src={SEAT_VIDEO}
+        className={`w-full h-full object-cover ${isVideoLoaded ? 'block' : 'hidden'}`}
+        playsInline
+        loop
+        muted
+        preload="auto" {/* Changed from "metadata" to "auto" for faster loading */}
+        autoPlay={false} {/* We'll handle autoplay manually */}
+        onLoadedData={handleVideoLoad}
+        onError={handleVideoError}
+        onClick={toggleVideoPlay}
+        poster={seatImages[0]}
+        playsInline
+        controls={false}
+        style={{ willChange: 'transform' }}
+      />
+      
+      {/* Video Error State */}
+      {videoError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900/20 to-blue-900/20">
+          <div className="text-center p-6">
+            <div className="p-3 rounded-full bg-gradient-to-r from-red-600/20 to-red-500/20 border border-red-500/30 mb-4 mx-auto w-16 h-16 flex items-center justify-center">
+              <X className="w-6 h-6 text-red-400" />
+            </div>
+            <p className="text-white/80 text-sm mb-2">Video failed to load</p>
+            <button
+              onClick={() => {
+                setIsVideoLoaded(false);
+                setVideoError(false);
+                if (videoRef.current) {
+                  videoRef.current.load();
+                }
+              }}
+              className="text-blue-300 hover:text-blue-200 text-sm mt-2"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* Premium Video Overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-all duration-500 ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
+        {/* Premium Play Button */}
+        <motion.button
+          onClick={toggleVideoPlay}
+          whileHover={{ scale: 1.15 }}
+          whileTap={{ scale: 0.95 }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-r from-purple-600/90 to-blue-600/90 backdrop-blur-xl rounded-full border-2 border-white/40 flex items-center justify-center hover:shadow-[0_0_50px_rgba(147,51,234,0.9)] hover:border-white/60 transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.5)] group/play"
+        >
+          {/* Glow Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full blur-xl group-hover/play:blur-2xl transition-all duration-300" />
           
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl group max-w-3xl mx-auto"
-          >
-            {/* Premium Video Container */}
-            <div className="relative aspect-[16/9] bg-gradient-to-br from-gray-900 via-black to-gray-900">
-              {/* Loading State */}
-              {!isVideoLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900/10 to-blue-900/10">
-                  <motion.div
-                    initial={{ opacity: 0.5 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center"
-                  >
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-20 h-20 border-2 border-white/20 border-t-white rounded-full mb-4 mx-auto"
-                    />
-                    <p className="text-white/70 text-sm">Loading video...</p>
-                  </motion.div>
-                </div>
-              )}
-              
-              {/* Video Element - Optimized with preload */}
-              <video
-                ref={videoRef}
-                src={SEAT_VIDEO}
-                className={`w-full h-full object-cover ${isVideoLoaded ? 'block' : 'hidden'}`}
-                playsInline
-                loop
-                muted
-                preload="metadata"
-                onLoadedData={handleVideoLoad}
-                onError={handleVideoError}
-                onClick={toggleVideoPlay}
-                poster={seatImages[0]}
-                playsInline
-                controls={false}
-              />
-              
-              {/* Video Error State */}
-              {videoError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900/20 to-blue-900/20">
-                  <div className="text-center p-6">
-                    <div className="p-3 rounded-full bg-gradient-to-r from-red-600/20 to-red-500/20 border border-red-500/30 mb-4 mx-auto w-16 h-16 flex items-center justify-center">
-                      <X className="w-6 h-6 text-red-400" />
-                    </div>
-                    <p className="text-white/80 text-sm mb-2">Video failed to load</p>
-                    <p className="text-white/60 text-xs">Please check your connection</p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Premium Video Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-all duration-500 ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
-                {/* Premium Play Button */}
-                <motion.button
-                  onClick={toggleVideoPlay}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-r from-purple-600/90 to-blue-600/90 backdrop-blur-xl rounded-full border-2 border-white/40 flex items-center justify-center hover:shadow-[0_0_50px_rgba(147,51,234,0.9)] hover:border-white/60 transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.5)] group/play"
-                >
-                  {/* Glow Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full blur-xl group-hover/play:blur-2xl transition-all duration-300" />
-                  
-                  {/* Button Content */}
-                  <div className="relative z-10 flex items-center justify-center">
-                    {isPlaying ? (
-                      <div className="relative">
-                        <div className="w-6 h-6 bg-white rounded-sm" />
-                      </div>
-                    ) : (
-                      <div className="relative ml-1">
-                        <Play className="w-10 h-10 text-white" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Pulsing Ring */}
-                  {!isPlaying && (
-                    <motion.div
-                      className="absolute inset-0 border-2 border-white/30 rounded-full"
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  )}
-                </motion.button>
-                
-                {/* Premium Video Info Panel */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/80 to-transparent backdrop-blur-sm">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-                    <div className="text-left">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Sparkles className="w-4 h-4 text-purple-300" />
-                        <h3 className="text-lg font-bold text-white">
-                          NovaLux In-Van Demo
-                        </h3>
-                      </div>
-                      <p className="text-gray-300 text-sm">
-                        Watch the premium triple seat in its natural environment
-                      </p>
-                    </div>
-                    
-                    <div className="flex items-center gap-3">
-                      {/* Video Stats */}
-                      <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/50 to-blue-900/50 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
-                        <Clock className="w-4 h-4 text-blue-300" />
-                        <span className="text-sm font-medium text-blue-200">00:08</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/50 to-blue-900/50 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
-                        <Maximize className="w-4 h-4 text-purple-300" />
-                        <span className="text-sm font-medium text-purple-200">HD</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Enhanced Progress Bar */}
-                  <div className="mt-4">
-                    <div className="h-1.5 w-full bg-gray-800/70 rounded-full overflow-hidden backdrop-blur-sm">
-                      <motion.div 
-                        className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-                        animate={{ width: isPlaying ? '100%' : '0%' }}
-                        transition={{ duration: 8, ease: "linear" }}
-                      />
-                    </div>
-                    <div className="flex justify-between mt-1">
-                      <span className="text-xs text-gray-400">00:00</span>
-                      <span className="text-xs text-gray-400">00:08</span>
-                    </div>
-                  </div>
-                </div>
+          {/* Button Content */}
+          <div className="relative z-10 flex items-center justify-center">
+            {isPlaying ? (
+              <div className="relative">
+                <div className="w-5 h-5 bg-white rounded-sm" />
               </div>
-            </div>
-            
-            {/* Premium Video Controls */}
-            <div className="absolute top-4 right-4 flex items-center gap-2">
-              <motion.button
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.muted = !videoRef.current.muted;
-                  }
-                }}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2.5 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:border-blue-400/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-300 shadow-lg"
-                title="Toggle sound"
-              >
-                <Volume2 className="w-4 h-4 text-blue-300" />
-              </motion.button>
-              
-              <motion.button
-                onClick={toggleVideoPlay}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2.5 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:border-purple-400/60 hover:shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 shadow-lg"
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? (
-                  <Pause className="w-4 h-4 text-purple-300" />
-                ) : (
-                  <Play className="w-4 h-4 text-purple-300" />
-                )}
-              </motion.button>
-              
-              {/* Loop Indicator */}
-              <div className="hidden sm:flex items-center gap-1.5 bg-gradient-to-r from-purple-900/40 to-blue-900/40 backdrop-blur-md rounded-full px-2.5 py-1 border border-white/10">
-                <RotateCcw className="w-3 h-3 text-cyan-300" />
-                <span className="text-xs text-cyan-200 font-medium">Loop</span>
+            ) : (
+              <div className="relative ml-1">
+                <Play className="w-8 h-8 md:w-10 md:h-10 text-white" />
               </div>
-            </div>
-            
-            {/* Premium Badge */}
-            <div className="absolute top-4 left-4">
-              <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/60 to-blue-900/60 backdrop-blur-xl rounded-full px-3 py-1.5 border border-white/20">
-                <Sparkles className="w-3 h-3 text-white" />
-                <span className="text-xs font-medium text-white">Premium Demo</span>
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Video Features - Premium Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 max-w-3xl mx-auto">
-            {[
-              {
-                title: "In-Van Placement",
-                description: "See how it fits perfectly in your van",
-                icon: <Car className="w-5 h-5" />,
-                gradient: "from-purple-600/30 to-blue-600/30",
-                delay: 0.1
-              },
-              {
-                title: "Quick Conversion",
-                description: "8-second transformation demo",
-                icon: <Clock className="w-5 h-5" />,
-                gradient: "from-blue-600/30 to-cyan-600/30",
-                delay: 0.2
-              },
-              {
-                title: "Premium Finish",
-                description: "Showcasing black leather quality",
-                icon: <Award className="w-5 h-5" />,
-                gradient: "from-cyan-600/30 to-emerald-600/30",
-                delay: 0.3
-              },
-              {
-                title: "Real Environment",
-                description: "Displayed in actual van setup",
-                icon: <Home className="w-5 h-5" />,
-                gradient: "from-emerald-600/30 to-purple-600/30",
-                delay: 0.4
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: feature.delay }}
-                viewport={{ once: true }}
-                whileHover={{ y: -4, scale: 1.03 }}
-                className={`group relative p-5 bg-gradient-to-br ${feature.gradient} via-black/40 to-gray-900/30 rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-300 backdrop-blur-sm overflow-hidden`}
-              >
-                {/* Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-20 transition-opacity duration-500 from-purple-500/10 via-blue-500/10 to-cyan-500/10" />
-                
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <motion.div 
-                      className={`p-2.5 rounded-xl bg-gradient-to-br ${feature.gradient} border border-white/20 group-hover:border-white/40 transition-colors`}
-                      animate={{ scale: [1, 1.05, 1] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                    >
-                      <div className="text-white">
-                        {feature.icon}
-                      </div>
-                    </motion.div>
-                    <div className="text-base font-bold text-white">{feature.title}</div>
-                  </div>
-                  <p className="text-gray-200 text-sm group-hover:text-white transition-colors leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+            )}
           </div>
           
-          {/* Video Call to Action */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mt-8"
-          >
-            <p className="text-gray-400 text-sm mb-3 max-w-lg mx-auto">
-              This quick demo shows the NovaLux seat in its natural environment. 
-              See how it transforms your van space.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleVideoPlay}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/90 to-blue-600/90 text-white px-5 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all duration-300 backdrop-blur-sm border border-white/20"
+          {/* Pulsing Ring */}
+          {!isPlaying && (
+            <motion.div
+              className="absolute inset-0 border-2 border-white/30 rounded-full"
+              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          )}
+        </motion.button>
+        
+        {/* Premium Video Info Panel */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/90 via-black/80 to-transparent backdrop-blur-sm">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div className="text-left">
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles className="w-4 h-4 text-purple-300" />
+                <h3 className="text-base md:text-lg font-bold text-white">
+                  NovaLux In-Van Demo
+                </h3>
+              </div>
+              <p className="text-gray-300 text-xs md:text-sm">
+                Watch the premium triple seat in its natural environment
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2 md:gap-3">
+              {/* Video Stats */}
+              <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/50 to-blue-900/50 backdrop-blur-md rounded-full px-2 md:px-3 py-1 md:py-1.5 border border-white/10">
+                <Clock className="w-3 h-3 md:w-4 md:h-4 text-blue-300" />
+                <span className="text-xs md:text-sm font-medium text-blue-200">00:08</span>
+              </div>
+              
+              <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/50 to-blue-900/50 backdrop-blur-md rounded-full px-2 md:px-3 py-1 md:py-1.5 border border-white/10">
+                <Maximize className="w-3 h-3 md:w-4 md:h-4 text-purple-300" />
+                <span className="text-xs md:text-sm font-medium text-purple-200">HD</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Enhanced Progress Bar */}
+          <div className="mt-3 md:mt-4">
+            <div className="h-1 md:h-1.5 w-full bg-gray-800/70 rounded-full overflow-hidden backdrop-blur-sm">
+              <motion.div 
+                className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                animate={{ width: isPlaying ? '100%' : '0%' }}
+                transition={{ duration: 8, ease: "linear" }}
+              />
+            </div>
+            <div className="flex justify-between mt-1">
+              <span className="text-xs text-gray-400">00:00</span>
+              <span className="text-xs text-gray-400">00:08</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* Premium Video Controls */}
+    <div className="absolute top-3 md:top-4 right-3 md:right-4 flex items-center gap-2">
+      <motion.button
+        onClick={() => {
+          if (videoRef.current) {
+            videoRef.current.muted = !videoRef.current.muted;
+          }
+        }}
+        whileHover={{ scale: 1.1, y: -2 }}
+        whileTap={{ scale: 0.95 }}
+        className="p-2 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:border-blue-400/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-300 shadow-lg"
+        title="Toggle sound"
+      >
+        <Volume2 className="w-3 h-3 md:w-4 md:h-4 text-blue-300" />
+      </motion.button>
+      
+      <motion.button
+        onClick={toggleVideoPlay}
+        whileHover={{ scale: 1.1, y: -2 }}
+        whileTap={{ scale: 0.95 }}
+        className="p-2 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:border-purple-400/60 hover:shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 shadow-lg"
+        title={isPlaying ? "Pause" : "Play"}
+      >
+        {isPlaying ? (
+          <Pause className="w-3 h-3 md:w-4 md:h-4 text-purple-300" />
+        ) : (
+          <Play className="w-3 h-3 md:w-4 md:h-4 text-purple-300" />
+        )}
+      </motion.button>
+      
+      {/* Loop Indicator */}
+      <div className="hidden sm:flex items-center gap-1.5 bg-gradient-to-r from-purple-900/40 to-blue-900/40 backdrop-blur-md rounded-full px-2.5 py-1 border border-white/10">
+        <RotateCcw className="w-3 h-3 text-cyan-300" />
+        <span className="text-xs text-cyan-200 font-medium">Loop</span>
+      </div>
+    </div>
+    
+    {/* Premium Badge */}
+    <div className="absolute top-3 md:top-4 left-3 md:left-4">
+      <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/60 to-blue-900/60 backdrop-blur-xl rounded-full px-2 md:px-3 py-1 md:py-1.5 border border-white/20">
+        <Sparkles className="w-3 h-3 text-white" />
+        <span className="text-xs font-medium text-white">Premium Demo</span>
+      </div>
+    </div>
+  </motion.div>
+  
+  {/* Video Features - Premium Grid */}
+  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 max-w-3xl mx-auto">
+    {[
+      {
+        title: "In-Van Placement",
+        description: "See how it fits perfectly in your van",
+        icon: <Car className="w-5 h-5" />,
+        gradient: "from-purple-600/30 to-blue-600/30",
+        delay: 0.1
+      },
+      {
+        title: "Quick Conversion",
+        description: "8-second transformation demo",
+        icon: <Clock className="w-5 h-5" />,
+        gradient: "from-blue-600/30 to-cyan-600/30",
+        delay: 0.2
+      },
+      {
+        title: "Premium Finish",
+        description: "Showcasing black leather quality",
+        icon: <Award className="w-5 h-5" />,
+        gradient: "from-cyan-600/30 to-emerald-600/30",
+        delay: 0.3
+      },
+      {
+        title: "Real Environment",
+        description: "Displayed in actual van setup",
+        icon: <Home className="w-5 h-5" />,
+        gradient: "from-emerald-600/30 to-purple-600/30",
+        delay: 0.4
+      }
+    ].map((feature, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: feature.delay }}
+        viewport={{ once: true }}
+        whileHover={{ y: -4, scale: 1.03 }}
+        className={`group relative p-5 bg-gradient-to-br ${feature.gradient} via-black/40 to-gray-900/30 rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-300 backdrop-blur-sm overflow-hidden`}
+      >
+        {/* Background Glow */}
+        <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-20 transition-opacity duration-500 from-purple-500/10 via-blue-500/10 to-cyan-500/10" />
+        
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-3">
+            <motion.div 
+              className={`p-2.5 rounded-xl bg-gradient-to-br ${feature.gradient} border border-white/20 group-hover:border-white/40 transition-colors`}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
             >
-              <Play className="w-4 h-4" />
-              Play Demo Again
-            </motion.button>
-          </motion.div>
-        </section>
+              <div className="text-white">
+                {feature.icon}
+              </div>
+            </motion.div>
+            <div className="text-base font-bold text-white">{feature.title}</div>
+          </div>
+          <p className="text-gray-200 text-sm group-hover:text-white transition-colors leading-relaxed">
+            {feature.description}
+          </p>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+  
+  {/* Video Call to Action */}
+  <motion.div 
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    className="text-center mt-8"
+  >
+    <p className="text-gray-400 text-sm mb-3 max-w-lg mx-auto">
+      This quick demo shows the NovaLux seat in its natural environment. 
+      See how it transforms your van space.
+    </p>
+    <motion.button
+      whileHover={{ scale: 1.03, y: -2 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={toggleVideoPlay}
+      className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/90 to-blue-600/90 text-white px-5 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all duration-300 backdrop-blur-sm border border-white/20"
+    >
+      <Play className="w-4 h-4" />
+      Play Demo Again
+    </motion.button>
+  </motion.div>
+</section>
 
         {/* Perfect For Section */}
         <section id="features" className="mb-16 md:mb-20">
