@@ -548,7 +548,7 @@ export default function NovaLuxSeatPage() {
         </div>
       </div>
 
-      {/* Premium Navigation Bar - Improved Mobile */}
+      {/* Premium Navigation Bar - Fixed Mobile Layout */}
       <motion.nav 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -670,7 +670,7 @@ export default function NovaLuxSeatPage() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Hero Section - Improved Mobile */}
+      {/* Hero Section - Fixed Mobile Layout */}
       <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden pt-16 px-4">
         {/* Animated Background with Darker Overlay */}
         <div className="absolute inset-0">
@@ -726,7 +726,7 @@ export default function NovaLuxSeatPage() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-40 w-full max-w-6xl mx-auto px-4 mt-8">
+        <div className="relative z-40 w-full max-w-6xl mx-auto px-2 sm:px-4 mt-8">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -803,7 +803,7 @@ export default function NovaLuxSeatPage() {
               {product.description}
             </motion.p>
             
-            {/* CTA Buttons - Enhanced */}
+            {/* CTA Buttons - Fixed Mobile Width */}
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -814,7 +814,7 @@ export default function NovaLuxSeatPage() {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleScrollTo('features')}
-                className="group relative bg-gradient-to-r from-purple-600 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_30px_rgba(147,51,234,0.6)] transition-all duration-300 overflow-hidden border border-purple-400 shadow-xl w-full sm:w-auto"
+                className="group relative bg-gradient-to-r from-purple-600 via-purple-500 to-blue-500 text-white px-4 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_30px_rgba(147,51,234,0.6)] transition-all duration-300 overflow-hidden border border-purple-400 shadow-xl w-full max-w-xs sm:w-auto"
               >
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-white/10 to-blue-500/0"
@@ -834,7 +834,7 @@ export default function NovaLuxSeatPage() {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleExternalLink(EXTERNAL_URLS.contact)}
-                className="group relative bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-lg border border-white/30 text-white px-6 py-3 rounded-xl text-sm font-bold hover:border-purple-400/60 hover:bg-white/15 hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] transition-all duration-300 shadow-lg w-full sm:w-auto"
+                className="group relative bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-lg border border-white/30 text-white px-4 py-3 rounded-xl text-sm font-bold hover:border-purple-400/60 hover:bg-white/15 hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] transition-all duration-300 shadow-lg w-full max-w-xs sm:w-auto"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <Phone className="w-4 h-4" />
@@ -863,11 +863,11 @@ export default function NovaLuxSeatPage() {
         </motion.div>
       </section>
 
-      {/* Main Content Container */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16">
+      {/* Main Content Container - Fixed Mobile Padding */}
+      <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-4 py-12 md:py-16">
         
         {/* Product Showcase */}
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 mb-16 md:mb-20">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 mb-16 md:mb-20">
           {/* Image Gallery */}
           <motion.div 
             initial="hidden"
@@ -1213,7 +1213,7 @@ export default function NovaLuxSeatPage() {
               </div>
             </div>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Fixed Mobile Width */}
             <div className="space-y-4 pt-4 border-t border-white/10">
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
@@ -1226,7 +1226,7 @@ export default function NovaLuxSeatPage() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleExternalLink(EXTERNAL_URLS.contact)}
-                  className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold w-full md:w-auto justify-center"
+                  className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-3 rounded-lg text-sm font-bold w-full max-w-xs md:w-auto justify-center mx-auto"
                 >
                   <Mail className="w-4 h-4" />
                   Contact for Availability
@@ -1532,14 +1532,14 @@ export default function NovaLuxSeatPage() {
             ))}
           </div>
           
-          {/* Video Call to Action */}
+          {/* Video Call to Action - Fixed Mobile Width */}
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             className="text-center mt-8"
           >
-            <p className="text-gray-400 text-sm mb-3 max-w-lg mx-auto">
+            <p className="text-gray-400 text-sm mb-3 max-w-lg mx-auto px-2">
               This quick demo shows the NovaLux seat in its natural environment. 
               See how it transforms your van space.
             </p>
@@ -1547,7 +1547,7 @@ export default function NovaLuxSeatPage() {
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleVideoPlay}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/90 to-blue-600/90 text-white px-5 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all duration-300 backdrop-blur-sm border border-white/20"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/90 to-blue-600/90 text-white px-5 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all duration-300 backdrop-blur-sm border border-white/20 w-full max-w-xs sm:w-auto"
             >
               <Play className="w-4 h-4" />
               Play Demo Again
@@ -1689,6 +1689,7 @@ export default function NovaLuxSeatPage() {
             ))}
           </div>
           
+          {/* Fixed Mobile Button Width */}
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -1699,7 +1700,7 @@ export default function NovaLuxSeatPage() {
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleExternalLink(EXTERNAL_URLS.swivelSeats)}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.2)] transition-all duration-300 shadow-lg w-full md:w-auto justify-center"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.2)] transition-all duration-300 shadow-lg w-full max-w-xs sm:w-auto justify-center mx-auto"
             >
               <Sparkles className="w-4 h-4" />
               View Complete Collection
@@ -1765,7 +1766,7 @@ export default function NovaLuxSeatPage() {
           </motion.div>
         </section>
         
-        {/* Final CTA */}
+        {/* Final CTA - Fixed Mobile Layout */}
         <motion.section 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -1800,12 +1801,13 @@ export default function NovaLuxSeatPage() {
               Experience the perfect synergy of luxury, functionality, and innovation with NovaLux Premium Seating. Transform your van into a mobile sanctuary.
             </motion.p>
             
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center">
+            {/* Fixed Mobile Button Widths */}
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
               <motion.button
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleExternalLink(EXTERNAL_URLS.contact)}
-                className="group relative bg-gradient-to-r from-purple-600 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300 overflow-hidden border border-purple-500/30 shadow-lg w-full md:w-auto"
+                className="group relative bg-gradient-to-r from-purple-600 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300 overflow-hidden border border-purple-500/30 shadow-lg w-full max-w-xs md:w-auto"
               >
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-blue-500/0"
@@ -1825,7 +1827,7 @@ export default function NovaLuxSeatPage() {
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleExternalLink(EXTERNAL_URLS.shopAll)}
-                className="group relative bg-gradient-to-br from-gray-900/50 via-black/50 to-gray-900/50 backdrop-blur-lg border border-white/20 text-white px-6 py-3 rounded-xl text-sm font-medium hover:border-purple-500/40 transition-all duration-300 w-full md:w-auto"
+                className="group relative bg-gradient-to-br from-gray-900/50 via-black/50 to-gray-900/50 backdrop-blur-lg border border-white/20 text-white px-6 py-3 rounded-xl text-sm font-medium hover:border-purple-500/40 transition-all duration-300 w-full max-w-xs md:w-auto"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <Car className="w-4 h-4" />
@@ -1837,7 +1839,7 @@ export default function NovaLuxSeatPage() {
         </motion.section>
       </div>
 
-      {/* UPDATED FOOTER */}
+      {/* UPDATED FOOTER - Fixed Mobile Layout */}
       <footer className="bg-gradient-to-b from-black via-gray-950 to-gray-900 border-t border-white/10 pt-12 md:pt-16 pb-8 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
@@ -1847,7 +1849,7 @@ export default function NovaLuxSeatPage() {
           }} />
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
+        <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4">
           {/* Footer Top Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
             {/* Brand Column */}
@@ -2065,7 +2067,7 @@ export default function NovaLuxSeatPage() {
             </motion.div>
           </div>
           
-          {/* Newsletter Section */}
+          {/* Newsletter Section - Fixed Mobile Width */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -2075,10 +2077,10 @@ export default function NovaLuxSeatPage() {
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-6">
                 <h4 className="text-lg font-bold text-white mb-2">Stay Updated</h4>
-                <p className="text-gray-400 text-sm">Subscribe to our newsletter for exclusive updates and offers</p>
+                <p className="text-gray-400 text-sm px-2">Subscribe to our newsletter for exclusive updates and offers</p>
               </div>
               
-              <form onSubmit={handleEmailSubmit} className="relative">
+              <form onSubmit={handleEmailSubmit} className="relative px-2">
                 <div className="relative">
                   <input
                     type="email"
@@ -2092,7 +2094,7 @@ export default function NovaLuxSeatPage() {
                     type="submit"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.95 }}
-                    className="absolute right-1 top-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-bold"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold"
                   >
                     Subscribe
                   </motion.button>
@@ -2223,13 +2225,13 @@ export default function NovaLuxSeatPage() {
               className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg"
             />
             
-            {/* Modal */}
+            {/* Modal - Fixed Mobile Width */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-3xl max-h-[90vh] overflow-y-auto mx-4"
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[calc(100%-2rem)] max-w-3xl max-h-[90vh] overflow-y-auto mx-4"
             >
               <div className="bg-gradient-to-b from-gray-900 via-black to-gray-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
                 {/* Header */}
@@ -2261,7 +2263,7 @@ export default function NovaLuxSeatPage() {
                 </div>
                 
                 {/* Content */}
-                <div className="p-6">
+                <div className="p-4 md:p-6">
                   {/* Detailed Description */}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
@@ -2318,14 +2320,14 @@ export default function NovaLuxSeatPage() {
                     </div>
                   </div>
                   
-                  {/* CTA */}
+                  {/* CTA - Fixed Mobile Buttons */}
                   <div className="pt-6 border-t border-white/10">
                     <div className="flex flex-col md:flex-row gap-4">
                       <motion.button
                         whileHover={{ scale: 1.03, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleExternalLink(EXTERNAL_URLS.contact)}
-                        className="flex-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300"
+                        className="flex-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-3 rounded-xl text-sm font-bold hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300"
                       >
                         <span className="flex items-center justify-center gap-2">
                           <Phone className="w-4 h-4" />
@@ -2337,7 +2339,7 @@ export default function NovaLuxSeatPage() {
                         whileHover={{ scale: 1.03, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleExternalLink(EXTERNAL_URLS.shopAll)}
-                        className="flex-1 bg-gradient-to-br from-gray-900/50 via-black/50 to-gray-900/50 backdrop-blur-lg border border-white/20 text-white px-6 py-3 rounded-xl text-sm font-medium hover:border-purple-500/40 transition-all duration-300"
+                        className="flex-1 bg-gradient-to-br from-gray-900/50 via-black/50 to-gray-900/50 backdrop-blur-lg border border-white/20 text-white px-4 py-3 rounded-xl text-sm font-medium hover:border-purple-500/40 transition-all duration-300"
                       >
                         <span className="flex items-center justify-center gap-2">
                           <ShoppingCart className="w-4 h-4" />
@@ -2427,8 +2429,8 @@ export default function NovaLuxSeatPage() {
           
           /* Fix mobile layout issues */
           .max-w-6xl {
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
           }
           
           /* Improve button sizes on mobile */
@@ -2470,6 +2472,17 @@ export default function NovaLuxSeatPage() {
             margin: 1rem;
             max-height: calc(100vh - 2rem);
           }
+          
+          /* Prevent content cutoff */
+          body {
+            overflow-x: hidden;
+            width: 100%;
+          }
+          
+          /* Fix button widths */
+          .w-full.max-w-xs {
+            max-width: 320px;
+          }
         }
         
         /* Better focus styles for accessibility */
@@ -2486,6 +2499,8 @@ export default function NovaLuxSeatPage() {
         /* Prevent horizontal overflow */
         body {
           overflow-x: hidden;
+          width: 100%;
+          position: relative;
         }
         
         /* Improve video loading */
@@ -2497,6 +2512,25 @@ export default function NovaLuxSeatPage() {
         @media (hover: none) {
           .hover-effect {
             transform: none !important;
+          }
+        }
+        
+        /* Fix container widths on mobile */
+        @media (max-width: 640px) {
+          .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+          }
+          
+          .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          
+          /* Ensure buttons don't overflow */
+          button, .btn {
+            max-width: 100%;
+            white-space: normal;
           }
         }
       `}</style>
