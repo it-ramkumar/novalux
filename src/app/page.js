@@ -866,85 +866,82 @@ export default function NovaLuxSeatPage() {
       {/* Main Content Container */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-16">
         
-        {/* Product Showcase - Fixed for Mobile */}
-<div className="grid lg:grid-cols-2 gap-6 lg:gap-12 mb-16 md:mb-20">
+       {/* Product Showcase */}
+<div className="grid lg:grid-cols-2 gap-6 lg:gap-12 mb-16 md:mb-20 px-2 md:px-0">
   {/* Image Gallery */}
   <motion.div 
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true }}
     variants={slideIn}
-    className="space-y-6"
+    className="space-y-6 w-full"
   >
-    {/* Main Image Container - Fixed for Mobile */}
+    {/* Main Image */}
     <motion.div 
       variants={floatAnimation}
-      className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl overflow-hidden border border-white/10 shadow-lg group"
+      className="relative aspect-[4/3] bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-xl lg:rounded-2xl overflow-hidden border border-white/10 shadow-lg group w-full"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Aspect Ratio Wrapper */}
-      <div className="relative pt-[75%] sm:pt-0 sm:aspect-[4/3]">
-        <motion.img 
-          key={currentImageIndex}
-          src={seatImages[currentImageIndex]}
-          alt={`NovaLux Seat ${currentImageIndex + 1}`}
-          className="absolute inset-0 w-full h-full object-cover sm:relative"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: isHovering ? 1.02 : 1 }}
-          transition={{ duration: 0.4 }}
-          loading="lazy"
-        />
-        
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        
-        {/* Navigation Buttons */}
-        {totalImages > 1 && (
-          <>
-            <motion.button 
-              onClick={prevImage}
-              whileHover={{ scale: 1.05, backgroundColor: 'rgba(147, 51, 234, 0.3)' }}
-              whileTap={{ scale: 0.9 }}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-lg z-10"
-            >
-              <ChevronLeft className="w-4 h-4 text-purple-300" />
-            </motion.button>
-            
-            <motion.button 
-              onClick={nextImage}
-              whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
-              whileTap={{ scale: 0.9 }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-blue-500/50 transition-all shadow-lg z-10"
-            >
-              <ChevronRight className="w-4 h-4 text-blue-300" />
-            </motion.button>
-            
-            {/* Auto-play Toggle */}
-            <motion.button 
-              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
-              className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-md z-10"
-              title={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
-            >
-              {isAutoPlaying ? (
-                <Pause className="w-3 h-3 text-purple-300" />
-              ) : (
-                <Play className="w-3 h-3 text-purple-300" />
-              )}
-            </motion.button>
-            
-            {/* Image Counter */}
-            <motion.div 
-              className="absolute top-3 left-3 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg px-2.5 py-1 rounded-lg border border-white/20 shadow-md z-10"
-            >
-              <p className="text-xs font-medium text-purple-300">
-                {currentImageIndex + 1} / {totalImages}
-              </p>
-            </motion.div>
-          </>
-        )}
-      </div>
+      <motion.img 
+        key={currentImageIndex}
+        src={seatImages[currentImageIndex]}
+        alt={`NovaLux Seat ${currentImageIndex + 1}`}
+        className="w-full h-full object-cover"
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={{ opacity: 1, scale: isHovering ? 1.02 : 1 }}
+        transition={{ duration: 0.4 }}
+        loading="lazy"
+      />
+      
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      
+      {/* Navigation Buttons */}
+      {totalImages > 1 && (
+        <>
+          <motion.button 
+            onClick={prevImage}
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(147, 51, 234, 0.3)' }}
+            whileTap={{ scale: 0.95 }}
+            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-lg"
+          >
+            <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
+          </motion.button>
+          
+          <motion.button 
+            onClick={nextImage}
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
+            whileTap={{ scale: 0.9 }}
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-blue-500/50 transition-all shadow-lg"
+          >
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-blue-300" />
+          </motion.button>
+          
+          {/* Auto-play Toggle */}
+          <motion.button 
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg border border-white/20 flex items-center justify-center hover:border-purple-500/50 transition-all shadow-md"
+            title={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
+          >
+            {isAutoPlaying ? (
+              <Pause className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-purple-300" />
+            ) : (
+              <Play className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-purple-300" />
+            )}
+          </motion.button>
+          
+          {/* Image Counter */}
+          <motion.div 
+            className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg px-2 py-1 rounded-lg border border-white/20 shadow-md"
+          >
+            <p className="text-xs font-medium text-purple-300">
+              {currentImageIndex + 1} / {totalImages}
+            </p>
+          </motion.div>
+        </>
+      )}
     </motion.div>
 
     {/* Thumbnail Strip */}
@@ -953,7 +950,7 @@ export default function NovaLuxSeatPage() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide px-1"
+        className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide w-full"
       >
         {seatImages.map((img, index) => (
           <motion.button
@@ -961,7 +958,7 @@ export default function NovaLuxSeatPage() {
             onClick={() => setCurrentImageIndex(index)}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.9 }}
-            className={`flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden border transition-all relative ${
+            className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden border transition-all relative ${
               index === currentImageIndex 
                 ? 'border-purple-500 scale-105 shadow-md shadow-purple-500/20' 
                 : 'border-white/10 hover:border-purple-400/40'
@@ -979,13 +976,13 @@ export default function NovaLuxSeatPage() {
     )}
   </motion.div>
   
-  {/* Product Details - No changes needed here */}
+  {/* Product Details */}
   <motion.div 
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true }}
     variants={fadeInUp}
-    className="space-y-8"
+    className="space-y-8 w-full px-2 sm:px-0"
   >
     
             {/* Price & Availability */}
