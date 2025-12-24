@@ -1315,8 +1315,8 @@ useEffect(() => {
         playsInline
         loop
         muted
-        preload="auto" {/* Changed from "metadata" to "auto" for faster loading */}
-        autoPlay={false} {/* We'll handle autoplay manually */}
+        preload="auto"
+        autoPlay={false} 
         onLoadedData={handleVideoLoad}
         onError={handleVideoError}
         onClick={toggleVideoPlay}
